@@ -1,0 +1,125 @@
+﻿@using SnippetVault.Core.DTO.CommentDTOs
+@using SnippetVault.Core.DTO.SnippetDTOs;
+@model CommentAddRequest
+
+@{
+    var snippetResponse = ViewData["SnippetResponse"] as SnippetResponse;
+}
+
+<div class="snippets-container">
+    <div class="snippet" id="@snippetResponse.SnippetId">
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/draft_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-file-name-read">
+                @snippetResponse.ApplicationUser.UserName&nbsp;/&nbsp;@snippetResponse.SnippetFileName
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/title_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-title-read">
+                @snippetResponse.SnippetTitle
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/info_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-description-read">
+                @snippetResponse.SnippetDescription
+            </div>
+        </div>
+        <div>
+            <textarea asp-for="@snippetResponse.SnippetBody" class="snippet-body-read"></textarea>
+        </div>
+        <div class="snippet-footer">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-action="Star" asp-controller="Snippets" asp-route-snippetId="@snippetResponse.SnippetId">
+                    @if (snippetResponse.CurrentUserStarStatus)
+                    {
+                        <img src="~/icons/star_active_fill0_wght400_grad0_opsz24.svg" />
+                    }
+                    else
+                    {
+                        <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" />
+                    }
+
+                    @snippetResponse.SnippetStars
+                </a>
+            }
+            else
+            {
+                <div>
+                    <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" />
+                    @snippetResponse.SnippetStars
+                </div>
+            }
+            <div>
+                <img src="~/icons/chat_fill0_wght400_grad0_opsz24.svg" />
+                @snippetResponse.SnippetCommentCount
+            </div>
+        </div>
+    </div>
+
+    <h1>Create Comment</h1>
+    <div class="comment">
+        <form asp-action="CreateComment" asp-controller="Snippets" method="post">
+            <input type="hidden" asp-for="CommentSnippetId" />
+            <div class="form-field">
+                <textarea asp-for="CommentBody" class="comment-body"></textarea>
+                <span class="error" asp-validation-for="CommentBody"></span>
+            </div>
+            <div class="actions">
+                <button class="button"><img src="~/icons/add_fill0_wght400_grad0_opsz24.svg" /><span>Create</span></button>
+                <a asp-action="Details" asp-controller="Snippets" asp-route-snippetId="@snippetResponse.SnippetId" class="button">
+                    <img src="~/icons/cancel_fill0_wght400_grad0_opsz24.svg" />
+                    <span>Discard</span></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section styles
+{
+    <link href="~/scripts/libs/codemirror5/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/styles/snippets.css" rel="stylesheet" />
+}
+
+@section scripts
+{
+    <script src="~/scripts/libs/codemirror5/lib/codemirror.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/selection/active-line.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/loadmode.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/simple.js"></script>
+    <script src="~/scripts/libs/codemirror5/mode/meta.js"></script>
+
+    <script src="~/scripts/SetupReadOnlySnippet.js"></script>
+
+    <script>
+        window.addEventListener("load", () => {
+            setupCommentBodyTextArea();
+        });
+
+        let setupCommentBodyTextArea = () => {
+            let sd = document.getElementsByClassName("comment-body")[0];
+
+            const minHeight = 100;
+
+            sd.setAttribute("style", "height:" + 100 + "px;overflow-y:hidden;");
+
+            sd.oninput = (event) => {
+                sd.style.height = 0;
+
+                if (sd.scrollHeight < 100) {
+                    sd.style.height = "100px";
+                } else {
+                    sd.style.height = sd.scrollHeight + "px";
+                }
+            }
+        }
+    </script>
+}

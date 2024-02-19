@@ -1,0 +1,75 @@
+﻿@using SnippetVault.Core.DTO.SnippetDTOs;
+@using SnippetVault.Core.DTO.StarDTOs;
+@model List<StarResponse>
+
+<div class="snippets-container">
+    <div>
+        @if (Model.Count() == 0)
+        {
+            <div>
+                You don't have any starred snippets yet
+            </div>
+        }
+        else
+        {
+            foreach (var starResponse in Model)
+            {
+                @await Html.PartialAsync("_Snippet", starResponse.SnippetResponse)
+            }
+
+            <div>
+                @if (ViewBag.IsItFirstPage == true)
+                {
+                    <div class="paging-button disabled">Newer</div>
+                }
+                else
+                {
+                    <a class="paging-button" asp-controller="Snippets" asp-action="MyStarredSnippets" asp-route-newer="true"
+                       asp-route-pivotDateTimeTicks="@Model[0].LastUpdateTime.Value.Ticks"
+                       asp-route-pivotId="@Model[0].StarId">Newer</a>
+                }
+
+                @if (ViewBag.IsItLastPage == true)
+                {
+                    <div class="paging-button disabled">Older</div>
+                }
+                else
+                {
+                    <a class="paging-button" asp-controller="Snippets" asp-action="MyStarredSnippets" asp-route-newer="false"
+                       asp-route-pivotDateTimeTicks="@Model[Model.Count - 1].LastUpdateTime.Value.Ticks"
+                       asp-route-pivotId="@Model[Model.Count - 1].StarId">Older</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section styles
+    {
+    <link href="~/scripts/libs/codemirror5/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/styles/snippets.css" rel="stylesheet" />
+    <link href="~/styles/snippets_mysnippets.css" rel="stylesheet" />
+    <link href="~/scripts/libs/codemirror5/lib/codemirror.css" rel="stylesheet" />
+    <style>
+        .CodeMirror {
+            border: 1px solid #222;
+            border-radius: 3px;
+            height: auto;
+        }
+
+        .CodeMirror-scroll {
+            height: 50px;
+        }
+
+    </style>
+        }
+
+@section scripts
+{
+    <script src="~/scripts/libs/codemirror5/lib/codemirror.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/selection/active-line.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/loadmode.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/simple.js"></script>
+    <script src="~/scripts/libs/codemirror5/mode/meta.js"></script>
+    <script src="~/scripts/SetupReadOnlySnippet.js"></script>
+}

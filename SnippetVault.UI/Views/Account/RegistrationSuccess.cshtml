@@ -1,0 +1,27 @@
+﻿@using System.Security.Claims;
+
+<div class="account-container">
+    <h1>Registration success</h1>
+
+    @if(User.Identity.IsAuthenticated)
+    {
+        <h1>User is authenticated</h1>
+        <h2>@User.Identity.Name</h2>
+    }
+    <p>
+        @if (ViewBag.EmailConfirmRequired)
+        {
+             @:Please check your email for verification
+        }
+        else
+        {
+            @:You are succesfully registered account
+            <a asp-action="Login" asp-controller="Account">Click here to login</a>
+        }
+    </p>
+</div>
+
+@section styles
+{
+    <link href="~/styles/account.css" rel="stylesheet" />
+}

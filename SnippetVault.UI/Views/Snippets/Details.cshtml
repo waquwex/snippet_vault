@@ -1,0 +1,298 @@
+﻿@using SnippetVault.UI.ViewModels;
+@model SnippetDetailsViewModel
+
+<div class="snippets-container">
+    @if (Model.Owner == true)
+    {
+        <ul class="snippet-owner-actions">
+            <li><a class="button" asp-action="Edit" asp-controller="Snippets" asp-route-snippetId="@Model.SnippetResponse.SnippetId"><img src="~/icons/edit_fill0_wght400_grad0_opsz24.svg" /><span>Edit</span></a></li>
+            <li><a class="button" asp-action="Delete" asp-controller="Snippets" asp-route-snippetId="@Model.SnippetResponse.SnippetId"><img class="bg-danger" src="~/icons/delete_fill0_wght400_grad0_opsz24.svg" /><span>Delete</span></a></li>
+        </ul>
+    }
+
+    <div class="snippet" id="@Model.SnippetResponse.SnippetId">
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/draft_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-file-name-read">
+                @Model.SnippetResponse.ApplicationUser.UserName&nbsp;/&nbsp;@Model.SnippetResponse.SnippetFileName
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/title_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-title-read">
+                @Model.SnippetResponse.SnippetTitle
+            </div>
+        </div>
+        <div class="data-field">
+            <div class="icon">
+                <img src="~/icons/info_fill0_wght400_grad0_opsz24.svg" />
+            </div>
+            <div class="snippet-description-read">
+                @Model.SnippetResponse.SnippetDescription
+            </div>
+        </div>
+        <div>
+            <textarea asp-for="@Model.SnippetResponse.SnippetBody" class="snippet-body-read"></textarea>
+        </div>
+        <div class="snippet-footer">
+            <p hidden="hidden" id="snippetId">@Model.SnippetResponse.SnippetId</p>
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                    @if (Model.SnippetResponse.CurrentUserStarStatus)
+                    {
+                        <button id="starButton">
+                            <img src="~/icons/star_active_fill0_wght400_grad0_opsz24.svg" id="starActiveIcon" />
+                            <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" style="display: none;" id="starInactiveIcon" />
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="starButton">
+                            <img src="~/icons/star_active_fill0_wght400_grad0_opsz24.svg" style="display: none;" id="starActiveIcon" />
+                            <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" id="starInactiveIcon" />
+                        </button>
+                    }
+
+                    <div id="snippetStarCount">@Model.SnippetResponse.SnippetStars</div>
+            }
+            else
+            {
+                <div>
+                    <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" />
+                    @Model.SnippetResponse.SnippetStars
+                </div>
+            }
+            <div>
+                <img src="~/icons/chat_fill0_wght400_grad0_opsz24.svg" />
+                @Model.SnippetResponse.SnippetCommentCount
+            </div>
+        </div>
+    </div>
+    <div class="comments">
+        <div class="actions">
+            <a asp-action="CreateComment" asp-controller="Snippets" asp-route-snippetId="@Model.SnippetResponse.SnippetId" class="button">
+                <img src="~/icons/add_fill0_wght400_grad0_opsz24.svg" />
+                <span>Create Comment</span>
+            </a>
+        </div>
+
+        <h2>Comments</h2>
+
+        @if (Model.SnippetComments.Count == 0)
+        {
+            <div>No comments created yet</div>
+        }
+        else
+        {
+            foreach (var commentResponse in Model.SnippetComments)
+            {
+                <div class="comment">
+                    <div class="comment-thumb-area">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            @if (commentResponse.UserLiked != null)
+                            {
+                                @if (commentResponse.UserLiked.Value == true)
+                                {
+                                    <div class="likeActions" commentId="@commentResponse.CommentId">
+                                        <button class="likeButton">
+                                            <img src="~/icons/thumb_up_active_fill0_wght400_grad0_opsz24.svg" class="likeActiveIcon" />
+                                            <img src="~/icons/thumb_up_fill0_wght400_grad0_opsz24.svg" class="likeInactiveIcon" style="display: none;" />
+                                        </button>
+
+                                        <button class="dislikeButton">
+                                            <img src="~/icons/thumb_down_active_fill0_wght400_grad0_opsz24.svg" class="dislikeActiveIcon" style="display: none;" />
+                                            <img src="~/icons/thumb_down_fill0_wght400_grad0_opsz24.svg" class="dislikeInactiveIcon" />
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="likeActions" commentId="@commentResponse.CommentId">
+                                        <button class="likeButton">
+                                            <img src="~/icons/thumb_up_active_fill0_wght400_grad0_opsz24.svg" class="likeActiveIcon" style="display: none;" />
+                                            <img src="~/icons/thumb_up_fill0_wght400_grad0_opsz24.svg" class="likeInactiveIcon" />
+                                        </button>
+
+                                        <button class="dislikeButton">
+                                            <img src="~/icons/thumb_down_active_fill0_wght400_grad0_opsz24.svg" class="dislikeActiveIcon" />
+                                            <img src="~/icons/thumb_down_fill0_wght400_grad0_opsz24.svg" class="dislikeInactiveIcon" style="display: none;" />
+                                        </button>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="likeActions" commentId="@commentResponse.CommentId">
+                                    <button class="likeButton">
+                                        <img src="~/icons/thumb_up_active_fill0_wght400_grad0_opsz24.svg" class="likeActiveIcon" style="display: none;" />
+                                        <img src="~/icons/thumb_up_fill0_wght400_grad0_opsz24.svg" class="likeInactiveIcon" />
+                                    </button>
+
+                                    <button class="dislikeButton">
+                                        <img src="~/icons/thumb_down_active_fill0_wght400_grad0_opsz24.svg" class="dislikeActiveIcon" style="display: none;" />
+                                        <img src="~/icons/thumb_down_fill0_wght400_grad0_opsz24.svg" class="dislikeInactiveIcon" />
+                                    </button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="comment-main-area">
+                        <div class="comment-header">
+                            @commentResponse.ApplicationUser.UserName
+                        </div>
+                        <div class="comment-body">@commentResponse.CommentBody</div>
+                        @if (commentResponse.Owner)
+                        {
+                            <div class="comment-footer">
+                                <a class="button" asp-action="EditComment" asp-controller="Snippets" asp-route-commentId="@commentResponse.CommentId">
+                                    <img src="~/icons/edit_fill0_wght400_grad0_opsz24.svg" /><span>Edit</span></a>
+                                <a class="button" asp-action="DeleteComment" asp-controller="Snippets" asp-route-commentId="@commentResponse.CommentId">
+                                    <img class="bg-danger" src="~/icons/delete_fill0_wght400_grad0_opsz24.svg" /><span>Delete</span></a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <div>
+                @if (ViewBag.IsItFirstPage == true)
+                {
+                    <div class="paging-button disabled">Newer</div>
+                }
+                else
+                {
+                    <a class="paging-button" asp-controller="Snippets" asp-action="Details" asp-route-newer="true"
+                       asp-route-commentPivotDateTimeTicks="@Model.SnippetComments[0].CommentCreatedDateTime.Value.Ticks"
+                       asp-route-commentPivotId="@Model.SnippetComments[0].CommentId">Newer</a>
+                }
+
+                @if (ViewBag.IsItLastPage == true)
+                {
+                    <div class="paging-button disabled">Older</div>
+                }
+                else
+                {
+                    <a class="paging-button" asp-controller="Snippets" asp-action="Details" asp-route-newer="false"
+                       asp-route-commentPivotDateTimeTicks="@Model.SnippetComments[Model.SnippetComments.Count - 1].CommentCreatedDateTime.Value.Ticks"
+                       asp-route-commentPivotId="@Model.SnippetComments[Model.SnippetComments.Count - 1].CommentId">Older</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section styles
+    {
+    <link href="~/scripts/libs/codemirror5/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/styles/snippets.css" rel="stylesheet" />
+    <link href="~/styles/snippets_details.css" rel="stylesheet" />
+    }
+
+@section scripts
+    {
+    <script src="~/scripts/libs/codemirror5/lib/codemirror.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/selection/active-line.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/loadmode.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/simple.js"></script>
+    <script src="~/scripts/libs/codemirror5/mode/meta.js"></script>
+    <script src="~/scripts/SetupReadOnlySnippet.js"></script>
+
+    <script>
+        const main = async () => {
+            const snippetId = document.getElementById("snippetId").innerText;
+            const starButton = document.getElementById("starButton");
+            const starActiveIcon = document.getElementById("starActiveIcon");
+            const starInactiveIcon = document.getElementById("starInactiveIcon");
+            const snippetStarCountEl = document.getElementById("snippetStarCount");
+
+            if (starButton != null) {
+                starButton.addEventListener("click", async () => {
+                    const response = await fetch("/snippets/star/" + snippetId); // since it is same origin this will include cookies
+                    const jsonResponse = await response.json();
+                    const newActive = jsonResponse.active;
+                    if (newActive == true) {
+                        starActiveIcon.style.display = "inline-block";
+                        starInactiveIcon.style.display = "none";
+                        const count = parseInt(snippetStarCountEl.innerText);
+                        snippetStarCountEl.innerText = count + 1;
+                    } else {
+                        starActiveIcon.style.display = "none";
+                        starInactiveIcon.style.display = "inline-block";
+                        const count = parseInt(snippetStarCountEl.innerText);
+                        snippetStarCountEl.innerText = count - 1;
+                    }
+                });
+            }
+
+            const likeActions = document.getElementsByClassName("likeActions");
+
+            if (likeActions == null) {
+                return;
+            }
+
+            for (let i = 0; i < likeActions.length; i++) {
+                const commentId = likeActions[i].getAttribute("commentId");
+                const likeButton = likeActions[i].getElementsByClassName("likeButton")[0];
+                const dislikeButton = likeActions[i].getElementsByClassName("dislikeButton")[0];
+                const likeActiveIcon = likeActions[i].getElementsByClassName("likeActiveIcon")[0];
+                const likeInactiveIcon = likeActions[i].getElementsByClassName("likeInactiveIcon")[0];
+                const dislikeActiveIcon = likeActions[i].getElementsByClassName("dislikeActiveIcon")[0];
+                const dislikeInactiveIcon = likeActions[i].getElementsByClassName("dislikeInactiveIcon")[0];
+
+
+                likeButton.addEventListener("click", async () => {
+                    const response = await fetch("/snippets/likecomment/" + commentId);
+                    const jsonResponse = await response.json();
+                    const likeStatus = jsonResponse.newLikeStatus;
+
+                    if (likeStatus == 1) {
+                        likeActiveIcon.style.display = "inline-block";
+                        likeInactiveIcon.style.display = "none";
+                        dislikeActiveIcon.style.display = "none";
+                        dislikeInactiveIcon.style.display = "inline-block";
+                    } else if (likeStatus == 0) {
+                        likeActiveIcon.style.display = "none";
+                        likeInactiveIcon.style.display = "inline-block";
+                        dislikeActiveIcon.style.display = "none";
+                        dislikeInactiveIcon.style.display = "inline-block";
+                    } else if (likeStatus == -1) {
+                        likeActiveIcon.style.display = "none";
+                        likeInactiveIcon.style.display = "none";
+                        dislikeActiveIcon.style.display = "inline-block";
+                        dislikeInactiveIcon.style.display = "none";
+                    }
+                });
+
+                dislikeButton.addEventListener("click", async () => {
+                    const response = await fetch("/snippets/dislikecomment/" + commentId);
+                    const jsonResponse = await response.json();
+                    const likeStatus = jsonResponse.newLikeStatus;
+
+                    if (likeStatus == 1) {
+                        likeActiveIcon.style.display = "inline-block";
+                        likeInactiveIcon.style.display = "none";
+                        dislikeActiveIcon.style.display = "none";
+                        dislikeInactiveIcon.style.display = "inline-block";
+                    } else if (likeStatus == 0) {
+                        likeActiveIcon.style.display = "none";
+                        likeInactiveIcon.style.display = "inline-block";
+                        dislikeActiveIcon.style.display = "none";
+                        dislikeInactiveIcon.style.display = "inline-block";
+                    } else if (likeStatus == -1) {
+                        likeActiveIcon.style.display = "none";
+                        likeInactiveIcon.style.display = "inline-block";
+                        dislikeActiveIcon.style.display = "inline-block";
+                        dislikeInactiveIcon.style.display = "none";
+                    }
+                 });
+            }
+        };
+
+        main();
+    </script>
+    }

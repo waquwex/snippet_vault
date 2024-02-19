@@ -1,0 +1,51 @@
+﻿@using SnippetVault.UI.ViewModels;
+
+@model AccountDetailsViewModel
+
+<div class="account-container">
+    <h1>Account Details</h1>
+    <form asp-controller="Account" asp-action="Details" method="post">
+        <div class="form-field">
+            <label asp-for="UpdateAccountDTO.UserName">Username</label>
+            <p id="UpdateAccountDTO_UserName" class="disabled-form-field">@Model.UpdateAccountDTO.UserName</p>
+        </div>
+        <div class="form-field">
+            <label asp-for="UpdateAccountDTO.Email">Email</label>
+            <p id="UpdateAccountDTO_Email" class="disabled-form-field">@Model.UpdateAccountDTO.Email</p>
+        </div>
+        <div class="form-field">
+            <label asp-for="UpdateAccountDTO.CurrentPassword">Current Password</label>
+            <input asp-for="UpdateAccountDTO.CurrentPassword" />
+            <span class="error" asp-validation-for="UpdateAccountDTO.CurrentPassword"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="UpdateAccountDTO.NewPassword">New Password</label>
+            <input asp-for="UpdateAccountDTO.NewPassword" />
+            <span class="error" asp-validation-for="UpdateAccountDTO.NewPassword"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="UpdateAccountDTO.ConfirmNewPassword">Confirm new password</label>
+            <input asp-for="UpdateAccountDTO.ConfirmNewPassword" />
+            <span class="error" asp-validation-for="UpdateAccountDTO.ConfirmNewPassword"></span>
+        </div>
+        <button class="form-button">Update account details</button>
+    </form>
+
+    <div class="account-details-stats">
+        <h2>Account Stats</h2>
+        <ul>
+            <li>Total Snippets Created:&nbsp;<span>@Model.SnippetsCount</span></li>
+            <li>Total Stars Given:&nbsp;<span>@Model.StarsCount</span></li>
+            <li>Total Comments Created:&nbsp;<span>@Model.CommentsCount</span></li>
+            <li>Total Comment Likes Given:&nbsp;<span>@Model.CommentLikesCount</span></li>
+        </ul>
+    </div>
+    <div class="delete-area">
+        <a asp-action="DeleteAccount" asp-controller="Account">Delete Account</a>
+    </div>
+</div>
+
+@section styles
+    {
+    <link href="~/styles/account.css" rel="stylesheet" />
+}

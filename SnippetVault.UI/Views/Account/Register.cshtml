@@ -1,0 +1,56 @@
+﻿@model RegisterDTO
+
+<div class="account-container">
+    <div class="banner">
+        <div class="logo">SV</div>
+        <h1>Register for SnippetVault</h1>
+    </div>
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div class="form-field">
+            <label asp-for="UserName">Username</label>
+            <input asp-for="UserName" />
+            <span class="error" asp-validation-for="UserName"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" />
+            <span class="error" asp-validation-for="Email"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" />
+            <span class="error" asp-validation-for="Password"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="ConfirmPassword">Confirm password</label>
+            <input asp-for="ConfirmPassword" />
+            <span class="error" asp-validation-for="ConfirmPassword"></span>
+        </div>
+        @if (ViewBag.IdentityErrors != null && ViewBag.IdentityErrors.Count > 0)
+        {
+            <div class="identity-errors-field error">
+                <ul>
+                    @foreach (var error in ViewBag.IdentityErrors.Values)
+                    {
+                        <li class="error">@error</li>
+                    }
+                </ul>
+            </div>
+        }
+        <button class="form-button">Register</button>
+        <div class="form-already-registered-field">
+           Already have an account? <a asp-controller="Account" asp-action="Login">Login now</a>
+        </div>
+    </form>
+</div>
+
+@section scripts {
+    <script src="~/scripts/libs/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/scripts/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/scripts/maxrepeatingcharactersvalidate.js"></script>
+}
+
+@section styles
+{
+    <link href="~/styles/account.css" rel="stylesheet" />
+}

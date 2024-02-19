@@ -1,0 +1,126 @@
+﻿.snippets-container {
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .snippets-container {
+        width: 100%;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .snippets-container {
+        width: 600px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .snippets-container {
+        width: 768px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .snippets-container {
+        width: 992px;
+    }
+}
+
+
+.snippet > form > .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.snippet {
+    background-color: #e8f1ff;
+    border-radius: 3px;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+.snippet-title-read {
+    word-wrap: break-word;
+    padding: 6px;
+}
+
+.snippet-description-read {
+    word-wrap: break-word;
+    padding: 6px;
+    flex: 1;
+}
+
+.snippet-file-name-read {
+    word-wrap: break-word;
+    background-color: #91abb8;
+    border-radius: 3px;
+    padding: 6px;
+    font-weight: 500;
+    border: 2px solid black;
+    flex: 1;
+}
+
+a.snippet-file-name-read {
+    cursor: pointer;
+    color: inherit;
+}
+
+
+.data-field {
+    display: flex;
+    align-items: center;
+}
+.data-field > .icon {
+    position: relative;
+    top: 1px;
+    margin-right: 4px;
+}
+
+.data-field > .icon > img {
+    height: 100%;
+}
+
+.data-field {
+    word-break: break-all;
+}
+
+
+.snippet > .snippet-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+    .snippet > .snippet-footer > div, .snippet > .snippet-footer > a {
+        display: flex;
+        align-items: center;
+        margin-right: 32px;
+    }
+
+        .snippet > .snippet-footer > div > img, .snippet > .snippet-footer > a > img {
+            margin-right: 4px;
+        }
+
+.paging-button {
+    display: inline-block;
+    padding: 4px;
+    background-color: green;
+    border-radius: 3px;
+    font-weight: 500;
+    color: white !important;
+}
+
+
+.paging-button.disabled {
+    cursor: not-allowed;
+    background-color: gray;
+}

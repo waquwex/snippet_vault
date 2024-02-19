@@ -1,0 +1,130 @@
+﻿.account-container {
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .account-container {
+        width: 100%;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .account-container {
+        width: 600px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .account-container {
+        width: 600px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .account-container {
+        width: 600px;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .account-container {
+        width: 600px;
+    }
+}
+
+
+
+.account-container > .banner {
+    text-align: center;
+}
+
+    .account-container > .banner > .logo {
+        width: 100px;
+        height: 100px;
+        background-color: #444;
+        border-radius: 50%;
+        margin: auto;
+        color: #eee;
+        line-height: 100px;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+.account-container > form > .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.forgot-password-field {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.form-remember-me-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .form-remember-me-field > input[type=checkbox] {
+        width: 19px;
+        height: 19px;
+        margin-right: 6px;
+    }
+
+
+.form-not-registered-field {
+    text-align: center;
+}
+
+.account-controller-container > nav {
+    background-color: #444;
+}
+
+.result {
+    font-size: 1.5em;
+    background-color: gray;
+    border-radius: 5px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-error {
+    background-color: red;
+    color: white;
+}
+
+.result-success {
+    background-color: green;
+    color: white;
+}
+
+.link {
+    margin-top: 16px;
+    border: 1px solid gray;
+    background-color: gainsboro;
+    color: black;
+    border-radius: 5px;
+    padding: 2px 4px;
+    font-size: 1rem;
+    box-shadow: 0 0 3px white;
+    font-weight: bold;
+}
+
+    .link:visited {
+        color: black;
+    }
+
+    .link:hover {
+        color: black;
+    }

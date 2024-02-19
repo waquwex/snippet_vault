@@ -1,0 +1,39 @@
+﻿@model LoginDTO
+
+<div class="account-container">
+    <div class="banner">
+        <div class="logo">SV</div>
+        <h1>Login to SnippetVault</h1>
+    </div>
+    <form asp-action="Login" asp-controller="Account" method="post" asp-route-returnUrl="@ViewBag.ReturnUrl">
+        <div class="form-field">
+            <label asp-for="FlexLoginName">Username or email</label>
+            <input asp-for="FlexLoginName"/>
+            <span class="error" asp-validation-for="FlexLoginName"></span>
+        </div>
+        <div class="form-field">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password"/>
+            <span class="error" asp-validation-for="Password"></span>
+        </div>
+        <div class="form-remember-me-field">
+            <input type="checkbox" asp-for="RememberMe" />
+            <label asp-for="RememberMe">Remember me</label>
+        </div>
+        <button class="form-button">Login</button>
+        <div class="form-not-registered-field">
+            Don't have an account yet? <a asp-controller="Account" asp-action="Register">Register now</a>
+        </div>
+    </form>
+</div>
+
+@section scripts
+{
+    <script src="~/scripts/libs/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/scripts/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section styles
+{
+    <link href="~/styles/account.css" rel="stylesheet" />
+}

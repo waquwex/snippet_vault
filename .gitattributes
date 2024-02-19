@@ -1,0 +1,2 @@
+SnippetVault.UI/wwwroot/scripts/libs/** linguist-vendored
+*.cshtml linguist-language=C#

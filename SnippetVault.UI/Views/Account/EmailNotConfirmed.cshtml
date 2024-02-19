@@ -1,0 +1,120 @@
+﻿@model EmailNotConfirmedDTO
+@using static System.TimeSpan
+
+<div class="account-container">
+    <div class="banner">
+        <div class="logo">SV</div>
+        <h1>Email not confirmed</h1>
+    </div>
+    @{
+        if (ViewBag.EmailSent != null)
+        {
+            if (ViewBag.EmailSent == true)
+            {
+                            <p class="result result-success">
+                            Email sent succesfully. Check your email inbox.
+                                <a class="link" asp-action="Login" asp-controller="Account">Login</a>
+                            </p>
+            }
+            else
+            {
+                if (ViewBag.RemainingTime == null)
+                {
+                                <p class="result result-error">
+                                    Error occurred. Retry.
+                                    <a class="link" asp-action="EmailNotConfirmed" asp-controller="Account">Back</a>
+                                </p>
+                }
+                else
+                {
+                    var remainingTime = (TimeSpan) ViewBag.RemainingTime;
+                    var formattedRemainingTime = $"{remainingTime:mm\\:ss}";
+
+                                <p class="result result-error">
+                                    Retry after <span id="remainingTime">@formattedRemainingTime</span>
+                                    <a class="link" asp-action="EmailNotConfirmed" asp-controller="Account">Back</a>
+                                </p>
+                }
+            }
+        }
+        else
+        {
+                        <form asp-action="EmailNotConfirmed" asp-controller="Account" method="post">
+                            @{
+                    if (ViewBag.HaveSessionFlexName != null && ViewBag.HaveSessionFlexName == true)
+                    {
+                    }
+                    else
+                    {
+                                                <div class="form-field">
+                                                    <label asp-for="Email">Email</label>
+                                                    <input asp-for="Email" />
+                                                    <span class="error" asp-validation-for="Email"></span>
+                                                </div>
+                    }
+                            }
+
+                            <button type="submit" class="form-button">Send Confirmation Email</button>
+                        </form>
+        }
+    }
+</div>
+
+
+@section styles
+{
+    <link href="~/styles/account.css" rel="stylesheet" />
+}
+
+@section scripts
+{
+    <script>
+        window.addEventListener("load", () => {
+            const remainingTimeEl = document.getElementById("remainingTime");
+            if (!remainingTimeEl) {
+                return;
+            }
+
+            const remainingTime = remainingTimeEl.textContent;
+            console.log(remainingTime);
+            let date = parse(remainingTime);
+
+            const interval = setInterval(() => {
+                date = new Date(date.getTime() - 1000);
+                console.log(date.getTime());
+
+                if (date.getTime() <= 0)
+                {
+                    clearInterval(interval);
+                    console.log("Remaining time is completed!");
+                    remainingTimeEl.textContent = "00-00";
+                }
+                else
+                {
+                    remainingTimeEl.textContent = format(date);
+                }
+
+            }, 1000);
+        });
+
+        function parse(str) {
+            const split = str.split(":");
+            const minutes = parseInt(split[0], 10);
+            const seconds = parseInt(split[1], 10);
+            const date = new Date(0);
+            date.setMinutes(minutes);
+            date.setSeconds(seconds);
+            return date;
+        }
+
+        function format(date) {
+            // Format
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+            const formattedTime = `${formattedMinutes}:${formattedSeconds}`;
+            return formattedTime;
+        }
+    </script>
+}

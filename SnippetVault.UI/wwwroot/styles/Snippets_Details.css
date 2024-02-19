@@ -1,0 +1,48 @@
+﻿.snippet-owner-actions {
+    display: flex;
+    list-style: none;
+    margin-bottom: 8px;
+}
+
+.snippet-owner-actions li {
+    margin-right: 8px;
+}
+
+.snippet-owner-actions > li > .button  {
+
+}
+
+.comment {
+    display: flex;
+    background-color: #edf5f4;
+    margin-bottom: 16px;
+    border-radius: 3px;
+    flex-direction: row;
+    border: 1px solid black;
+}
+
+    .comment > .comment-thumb-area {
+        flex: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 4px;
+        border-right: 1px solid black;
+        min-width: 40px;
+    }
+
+    .comment > .comment-main-area {
+        flex-direction: column;
+        display: flex;
+        flex: 1;
+        background-color: #edf5f4;
+        padding: 8px;
+    }
+
+        .comment > .comment-main-area > .comment-body {
+            margin-top: 4px;
+            flex: 1;
+            border: 1px solid black;
+            border-radius: 3px;
+            white-space: pre-line;
+            padding: 8px;
+        }

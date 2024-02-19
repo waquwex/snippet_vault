@@ -1,0 +1,49 @@
+﻿@using SnippetVault.Core.DTO.SnippetDTOs;
+@model SnippetResponse
+
+<div class="snippet" id="@Model.SnippetId">
+    <div class="data-field">
+        <div class="icon">
+            <img src="~/icons/draft_fill0_wght400_grad0_opsz24.svg" />
+        </div>
+        <a asp-action="Details" asp-controller="Snippets" asp-route-snippetId="@Model.SnippetId" class="snippet-file-name-read">
+                @Model.ApplicationUser.UserName&nbsp;/&nbsp;@Model.SnippetFileName
+        </a>
+    </div>
+    <div class="data-field">
+        <div class="icon">
+            <img src="~/icons/title_fill0_wght400_grad0_opsz24.svg" />
+        </div>
+        <div class="snippet-title-read">
+            @Model.SnippetTitle
+        </div>
+    </div>
+    <div class="data-field">
+        <div class="icon">
+            <img src="~/icons/info_fill0_wght400_grad0_opsz24.svg" />
+        </div>
+        <div class="snippet-description-read">
+            @Model.SnippetDescription
+        </div>
+    </div>
+    <div>
+        <textarea asp-for="@Model.SnippetBody" class="snippet-body-read"></textarea>
+    </div>
+    <div class="snippet-footer">
+        <div>
+            @if (Model.CurrentUserStarStatus)
+            {
+                <img src="~/icons/star_active_fill0_wght400_grad0_opsz24.svg" />
+            }
+            else
+            {
+                <img src="~/icons/star_fill0_wght400_grad0_opsz24.svg" />
+            }
+            @Model.SnippetStars
+        </div>
+        <div>
+            <img src="~/icons/chat_fill0_wght400_grad0_opsz24.svg" />
+            @Model.SnippetCommentCount
+        </div>
+    </div>
+</div>

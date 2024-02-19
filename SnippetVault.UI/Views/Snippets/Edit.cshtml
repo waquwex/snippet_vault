@@ -1,0 +1,51 @@
+﻿@using SnippetVault.Core.DTO.SnippetDTOs;
+@model SnippetUpdateRequest
+
+<div class="snippets-container">
+    <h1>Edit Snippet</h1>
+    <div class="snippet">
+        <form asp-action="Edit" asp-controller="Snippets" method="post">
+            <input type="hidden" asp-for="SnippetId" />
+            <div class="form-field">
+                <label asp-for="SnippetTitle">Title</label>
+                <input asp-for="SnippetTitle" />
+                <span class="error" asp-validation-for="SnippetTitle"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="SnippetDescription">Description</label>
+                <textarea class="snippet-description" asp-for="SnippetDescription" rows="1"></textarea>
+                <span class="error" asp-validation-for="SnippetDescription"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="SnippetFileName">File Name with extension</label>
+                <input class="snippet-file-name" asp-for="SnippetFileName" />
+                <span class="error" asp-validation-for="SnippetFileName"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="SnippetBody">Code</label>
+                <textarea class="snippet-body" asp-for="SnippetBody"></textarea>
+                <span class="error" asp-validation-for="SnippetBody"></span>
+            </div>
+            <button class="form-button">
+                Edit
+            </button>
+        </form>
+    </div>
+</div>
+
+
+@section styles
+{
+    <link href="~/scripts/libs/codemirror5/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/styles/snippets.css" rel="stylesheet" />
+}
+
+@section scripts
+{
+    <script src="~/scripts/libs/codemirror5/lib/codemirror.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/selection/active-line.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/loadmode.js"></script>
+    <script src="~/scripts/libs/codemirror5/addon/mode/simple.js"></script>
+    <script src="~/scripts/libs/codemirror5/mode/meta.js"></script>
+    <script src="~/scripts/SetupSnippet.js"></script>
+}

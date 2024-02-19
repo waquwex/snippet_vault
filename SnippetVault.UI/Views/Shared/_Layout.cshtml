@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href="~/styles/Shared.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    @await RenderSectionAsync("styles", false)
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav-menu-links">
+                    <li>
+                        <a asp-controller="Snippets" asp-action="Index" active-route-css-class="active-route"
+                           additional-routes-to-match="/">All Snippets</a>
+                    </li>
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a asp-controller="Snippets" asp-action="MySnippets" active-route-css-class="active-route">My Snippets</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Snippets" asp-action="MyStarredSnippets" active-route-css-class="active-route">My Starred Snippets</a>
+                        </li>
+                    }
+                </ul>
+                <div class="nav-burger-menu">
+                    <button><img src="~/icons/menu_fill0_wght400_grad0_opsz24.svg" /></button>
+                    <ul>
+                        <li>
+                            <a asp-controller="Snippets" asp-action="Index" active-route-css-class="active-route"
+                               additional-routes-to-match="/">All Snippets</a>
+                        </li>
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a asp-controller="Snippets" asp-action="MySnippets" active-route-css-class="active-route">My Snippets</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Snippets" asp-action="MyStarredSnippets" active-route-css-class="active-route">My Starred Snippets</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+            <nav>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="userNameLabel">@User.Identity.Name</li>
+                        <li><a asp-controller="Account" asp-action="Details" active-route-css-class="active-route">Details</a></li>
+                        <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="Account" asp-action="Login" active-route-css-class="active-route">Login</a></li>
+                        <li><a asp-controller="Account" asp-action="Register" active-route-css-class="active-route">Register</a></li>
+                    }
+                </ul>
+            </nav>
+        </header>
+
+        @RenderBody()
+        <footer>
+            Created by <a href="https://waquwex.github.io">&nbsp;waquwex</a>&nbspwith ASP.NET Core MVC
+        </footer>
+    </div>
+    <script src="~/scripts/libs/jquery/jquery.min.js"></script>
+    <script>
+        let menuActive = false;
+        let hamburgerMenuButton = document.querySelector(".nav-burger-menu > button");
+        let hamburgerMenuUl = document.querySelector(".nav-burger-menu > ul");
+
+        hamburgerMenuButton.onclick = () => {
+            if (!menuActive) {
+                menuActive = true;
+                hamburgerMenuUl.style.display = "flex";
+                hamburgerMenuButton.style.backgroundColor = "red";
+                $(hamburgerMenuUl).animate({
+                    height: (hamburgerMenuUl.childElementCount * 38 + 5) + "px"
+                }, 350, function () {
+                    // Animation complete.
+                });
+            }
+            else {
+                menuActive = false;
+                hamburgerMenuButton.style.backgroundColor = "transparent";
+                $(hamburgerMenuUl).animate({
+                    height: "0px"
+                }, 350, function () {
+                    hamburgerMenuUl.style.display = "none";
+                });
+            }
+        }
+    </script>
+    @await RenderSectionAsync("scripts", false)
+</body>
+</html>
